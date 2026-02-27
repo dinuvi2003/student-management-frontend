@@ -1,5 +1,4 @@
 import Sidebar from "./SideBar";
-import Topbar from "./TopBar";
 import type { ReactNode } from "react";
 
 interface Props {
@@ -12,7 +11,6 @@ const DashboardLayout = ({ children }: Props) => {
       <Sidebar />
 
       <div className="flex-1 flex flex-col">
-        <Topbar />
         <main className="p-8">{children}</main>
       </div>
     </div>
