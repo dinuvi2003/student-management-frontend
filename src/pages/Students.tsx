@@ -1,7 +1,11 @@
-import DashboardLayout from "../componenets/layout/DashBoardLayout";
+import { useNavigate } from "react-router-dom";
+import DashboardLayout from "../componenets/layout/DashboardLayout";
 import StudentTable from "../componenets/students/StudentTable";
 
 const Students = () => {
+
+  const navigate = useNavigate();
+
   return (
     <DashboardLayout>
       {/* Header */}
@@ -11,7 +15,9 @@ const Students = () => {
           <p className="text-gray-500">8 students found</p>
         </div>
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+        <button 
+          onClick={() => navigate("/add-student")}
+          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
           + Add Student
         </button>
       </div>

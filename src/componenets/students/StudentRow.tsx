@@ -1,5 +1,5 @@
 import { Pencil, Trash2 } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 interface Props {
   student: {
     id: string;
@@ -11,6 +11,9 @@ interface Props {
 }
 
 const StudentRow = ({ student }: Props) => {
+
+  const navigate = useNavigate();
+
   return (
     <tr className="hover:bg-gray-50 transition">
       <td className="px-6 py-4 text-sm text-gray-500">{student.id}</td>
@@ -31,8 +34,10 @@ const StudentRow = ({ student }: Props) => {
         <div className="flex justify-end space-x-3">
           
           {/* Update Icon - Yellow */}
-          <button className="p-2 rounded-lg text-yellow-500 hover:text-yellow-600 hover:bg-yellow-50 transition">
-            <Pencil size={18} />
+          <button 
+            onClick={() => navigate(`/students/${student.id}`)}
+            className="p-2 rounded-lg text-yellow-500 hover:text-yellow-600 hover:bg-yellow-50 transition">
+              <Pencil size={18} />
           </button>
 
           {/* Delete Icon - Red */}

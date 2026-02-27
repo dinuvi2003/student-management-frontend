@@ -1,4 +1,9 @@
+import { NavLink } from "react-router-dom";
+
 const Sidebar = () => {
+  const linkClasses =
+    "w-full block text-left px-3 py-2 rounded transition";
+
   return (
     <div className="w-64 bg-slate-900 text-white flex flex-col justify-between">
       <div>
@@ -10,17 +15,40 @@ const Sidebar = () => {
 
         {/* Menu */}
         <nav className="mt-6 space-y-2 px-4">
-          <button className="w-full text-left px-3 py-2 rounded hover:bg-slate-800">
+          
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              `${linkClasses} ${
+                isActive ? "bg-slate-800" : "hover:bg-slate-800"
+              }`
+            }
+          >
             Dashboard
-          </button>
+          </NavLink>
 
-          <button className="w-full text-left px-3 py-2 rounded bg-slate-800">
+          <NavLink
+            to="/students"
+            className={({ isActive }) =>
+              `${linkClasses} ${
+                isActive ? "bg-slate-800" : "hover:bg-slate-800"
+              }`
+            }
+          >
             Students
-          </button>
+          </NavLink>
 
-          <button className="w-full text-left px-3 py-2 rounded hover:bg-slate-800">
+          <NavLink
+            to="/add-student"
+            className={({ isActive }) =>
+              `${linkClasses} ${
+                isActive ? "bg-slate-800" : "hover:bg-slate-800"
+              }`
+            }
+          >
             Add Student
-          </button>
+          </NavLink>
+
         </nav>
       </div>
 
