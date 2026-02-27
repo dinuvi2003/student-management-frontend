@@ -1,8 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+
+  const navigate = useNavigate();
+
   const linkClasses =
     "w-full block text-left px-3 py-2 rounded transition";
+
+    const handleLogout = () => {
+      //Remove stored credentials
+      localStorage.removeItem("auth");
+
+      navigate("/", {replace: true});
+    }
 
   return (
     <div className="w-64 bg-slate-900 text-white flex flex-col justify-between">
@@ -54,7 +64,9 @@ const Sidebar = () => {
 
       {/* Sign Out */}
       <div className="p-6 border-t border-slate-800">
-        <button className="text-slate-400 hover:text-white">
+        <button 
+          onClick={handleLogout}
+          className="text-slate-400 hover:text-white">
           Sign Out
         </button>
       </div>
