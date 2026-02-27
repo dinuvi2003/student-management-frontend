@@ -22,15 +22,6 @@ const Students = () => {
         </button>
       </div>
 
-      {/* Search */}
-      <div className="mb-6">
-        <input
-          type="text"
-          placeholder="Search by name, ID, or email..."
-          className="w-96 px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
-        />
-      </div>
-
       <StudentTable />
     </DashboardLayout>
   );
