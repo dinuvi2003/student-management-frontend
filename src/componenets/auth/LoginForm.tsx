@@ -49,7 +49,7 @@ const LoginForm = () => {
         </label>
         <input
           type="text"
-          placeholder="admin"
+          placeholder="Enter your username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
