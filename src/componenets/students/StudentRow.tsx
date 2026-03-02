@@ -8,9 +8,10 @@ interface Props {
     dob: string;
     enrollmentDate: string;
   };
+  onDelete: (id: string) => void;
 }
 
-const StudentRow = ({ student }: Props) => {
+const StudentRow = ({ student, onDelete }: Props) => {
 
   const navigate = useNavigate();
 
@@ -41,8 +42,10 @@ const StudentRow = ({ student }: Props) => {
           </button>
 
           {/* Delete Icon - Red */}
-          <button className="p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-50 transition">
-            <Trash2 size={18} />
+          <button 
+            onClick={() => onDelete(student.id)}
+            className="p-2 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-50 transition">
+              <Trash2 size={18} />
           </button>
 
         </div>
