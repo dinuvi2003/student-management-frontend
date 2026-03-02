@@ -59,9 +59,6 @@ function App() {
         } 
       />
 
-      <Route path="/students" element={<Students />} />
-      <Route path="/add-student" element={<AddStudent />} />
-      <Route path="/students/:id" element={<UpdateStudent />}/>
     </Routes>
   );
 }
