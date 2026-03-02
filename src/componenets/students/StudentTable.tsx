@@ -24,6 +24,24 @@ const StudentTable = () => {
     });
   }, []);
 
+  const handleDelete = async (id: string) => {
+
+    const confirmDelete = window.confirm("Are you sure you want to delete this student?");
+    if (!confirmDelete) return;
+
+    try {
+      await API.delete(`/api/students/${id}`);
+
+      // Remove from UI without refreshing
+      setStudents((prev) =>
+        prev.filter((student) => student.id.toString() !== id)
+      );
+
+    } catch (error) {
+      console.error("Error deleting student:", error);
+    }
+  };
+
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
       <table className="w-full text-left">
@@ -50,6 +68,7 @@ const StudentTable = () => {
                 dob: student.dateOfBirth,
                 enrollmentDate: student.enrollmentDate
               }}
+              onDelete={handleDelete}
             />
           ))}
         </tbody>
