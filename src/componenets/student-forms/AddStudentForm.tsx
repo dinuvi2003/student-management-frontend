@@ -3,6 +3,7 @@ import { useState } from "react";
 import FormInput from "./FormInput";
 import FormDateInput from "./FormDateInput";
 import API from "../../services/api";
+import axios from "axios";
 
 const AddStudentForm = () => {
   const navigate = useNavigate();
@@ -106,9 +107,24 @@ const AddStudentForm = () => {
       await API.post("/api/students", formData);
       alert("Student created successfully");
       navigate("/students");
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error creating student", error);
-      alert("Failed to create student");
+
+      if(axios.isAxiosError(error)) {
+        const backendMessage = error.response?.data?.message;
+
+        //duplicate email
+        if(backendMessage === "Email already exists") {
+          setErrors((prev) => ({
+            ...prev,
+            email: "Email already exists",
+          }));
+          return;
+        }
+      }
+      
+
+      alert("Something went wrong. Please try again");
     }
   };
 

@@ -38,9 +38,7 @@ const LoginCard = () => {
 
       <LoginForm />
 
-      <p className="text-center text-sm text-gray-400 mt-6">
-        Use any email & password to sign in
-      </p>
+      
     </div>
   );
 };
