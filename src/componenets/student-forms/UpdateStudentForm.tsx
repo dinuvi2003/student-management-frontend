@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import API from "../../services/api";
 import FormInput from "./FormInput";
 import FormDateInput from "./FormDateInput";
+import axios from "axios";
 
 const UpdateStudentForm = () => {
   const { id } = useParams();
@@ -26,7 +27,7 @@ const UpdateStudentForm = () => {
 
   const [loading, setLoading] = useState(true);
 
-  // 🔹 Fetch student on mount
+  // Fetch student on mount
   useEffect(() => {
     const fetchStudent = async () => {
       try {
@@ -134,8 +135,22 @@ const UpdateStudentForm = () => {
       await API.put(`/api/students/${id}`, formData);
       alert("Student updated successfully!");
       navigate("/students");
-    } catch {
-      alert("Update failed");
+    } catch(error: unknown) {
+      console.log("Error updating student", error);
+
+      if(axios.isAxiosError(error)) {
+        const backendMessage = error.response?.data?.message;
+
+        if(backendMessage === "Email already exists") {
+          setErrors((prev) => ({
+            ...prev,
+            email: "Email already exists",
+          }));
+        }
+        return;
+      }
+
+      alert("Something went wrong. Please try again");
     }
   };
 

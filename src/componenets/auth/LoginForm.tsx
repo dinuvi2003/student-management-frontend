@@ -64,7 +64,7 @@ const LoginForm = () => {
         </label>
         <div className="relative">
           <input
-            type={password}
+            type="password"
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
