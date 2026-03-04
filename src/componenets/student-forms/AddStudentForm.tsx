@@ -4,6 +4,7 @@ import FormInput from "./FormInput";
 import FormDateInput from "./FormDateInput";
 import API from "../../services/api";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const AddStudentForm = () => {
   const navigate = useNavigate();
@@ -105,7 +106,7 @@ const AddStudentForm = () => {
 
     try {
       await API.post("/api/students", formData);
-      alert("Student created successfully");
+      toast.success("Student created successfully");
       navigate("/students");
     } catch (error: unknown) {
       console.error("Error creating student", error);
@@ -124,7 +125,7 @@ const AddStudentForm = () => {
       }
       
 
-      alert("Something went wrong. Please try again");
+      toast.error("Something went wrong. Please try again");
     }
   };
 
