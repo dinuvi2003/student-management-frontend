@@ -4,6 +4,7 @@ import API from "../../services/api";
 import FormInput from "./FormInput";
 import FormDateInput from "./FormDateInput";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const UpdateStudentForm = () => {
   const { id } = useParams();
@@ -133,7 +134,7 @@ const UpdateStudentForm = () => {
 
     try {
       await API.put(`/api/students/${id}`, formData);
-      alert("Student updated successfully!");
+      toast.success("Student updated successfully!");
       navigate("/students");
     } catch(error: unknown) {
       console.log("Error updating student", error);
@@ -150,7 +151,7 @@ const UpdateStudentForm = () => {
         return;
       }
 
-      alert("Something went wrong. Please try again");
+      toast.error("Something went wrong. Please try again");
     }
   };
 

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import StudentRow from "./StudentRow";
 import API from "../../services/api";
+import toast from "react-hot-toast";
+import ConfirmModal from "./ConfirmModal";
 interface Student {
   id: number;
   firstName: string;
@@ -13,6 +15,8 @@ interface Student {
 const StudentTable = () => {
 
   const[students, setStudents] = useState<Student[]>([]);
+  const[id, setId] = useState<string | null>(null);
+  const[isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     API.get("/api/students")
@@ -24,10 +28,14 @@ const StudentTable = () => {
     });
   }, []);
 
-  const handleDelete = async (id: string) => {
+  const confirmDelete = (selectedId: string) => {
+    setId(selectedId);
+    setIsModalOpen(true);
+  }
 
-    const confirmDelete = window.confirm("Are you sure you want to delete this student?");
-    if (!confirmDelete) return;
+  const handleDelete = async () => {
+
+    if(!id) return;
 
     try {
       await API.delete(`/api/students/${id}`);
@@ -37,8 +45,13 @@ const StudentTable = () => {
         prev.filter((student) => student.id.toString() !== id)
       );
 
+      toast.success("Student deleted successfully")
     } catch (error) {
       console.error("Error deleting student:", error);
+      toast.error("Failed to delete student");
+    } finally {
+      setIsModalOpen(false);
+      setId(null);
     }
   };
 
@@ -68,12 +81,21 @@ const StudentTable = () => {
                 dob: student.dateOfBirth,
                 enrollmentDate: student.enrollmentDate
               }}
-              onDelete={handleDelete}
+              onDelete={confirmDelete}
             />
           ))}
         </tbody>
 
       </table>
+
+      <ConfirmModal 
+        isOpen={isModalOpen}
+        title="Delete Student"
+        message="Are you sure you want to delete this student? This action cannot be undone"
+        onConfirm={handleDelete}
+        onCancel={() => setIsModalOpen(false)}
+      />
+
     </div>
   );
 };
