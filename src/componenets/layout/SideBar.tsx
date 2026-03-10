@@ -59,6 +59,28 @@ const Sidebar = () => {
             Add Student
           </NavLink>
 
+          <NavLink
+            to="/courses"
+            className={({ isActive }) =>
+              `${linkClasses} ${
+                isActive ? "bg-slate-800" : "hover:bg-slate-800"
+              }`
+            }
+          >
+            Courses
+          </NavLink>
+
+          <NavLink
+            to="/add-course"
+            className={({ isActive }) =>
+              `${linkClasses} ${
+                isActive ? "bg-slate-800" : "hover:bg-slate-800"
+              }`
+            }
+          >
+            Add Course
+          </NavLink>
+
         </nav>
       </div>
 

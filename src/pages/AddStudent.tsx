@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../componenets/layout/DashboardLayout";
-import AddStudentForm from "../componenets/student-forms/AddStudentForm";
+import AddStudentForm from "../componenets/forms/AddStudentForm";
 
 const AddStudent = () => {
   const navigate = useNavigate();

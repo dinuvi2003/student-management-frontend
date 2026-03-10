@@ -4,6 +4,9 @@ import Dashboard from "./pages/Dashboard";
 import Students from "./pages/Students";
 import AddStudent from "./pages/AddStudent";
 import UpdateStudent from "./pages/UpdateStudent";
+import Courses from "./pages/Courses";
+import AddCourse from "./pages/AddCourse";
+import UpdateCourse from "./pages/UpdateCourse";
 import type { ReactNode } from "react";
 
 const ProtectedRoute = ({children} : {children: ReactNode}) => {
@@ -55,6 +58,33 @@ function App() {
         element={
           <ProtectedRoute>
             <UpdateStudent />
+          </ProtectedRoute>
+        } 
+      />
+
+      <Route 
+        path="/courses" 
+        element={
+          <ProtectedRoute>
+            <Courses />
+          </ProtectedRoute>
+        } 
+      />
+
+      <Route 
+        path="/add-course" 
+        element={
+          <ProtectedRoute>
+            <AddCourse />
+          </ProtectedRoute>
+        } 
+      />
+
+      <Route 
+        path="/courses/:id" 
+        element={
+          <ProtectedRoute>
+            <UpdateCourse />
           </ProtectedRoute>
         } 
       />
