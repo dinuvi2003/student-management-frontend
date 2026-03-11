@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -32,6 +32,14 @@ const CourseRow = ({ course, onDelete }: Props) => {
       <td className="px-6 py-4 text-right">
 
         <div className="flex justify-end space-x-3">
+
+          {/* View Icon */}
+          <button
+            onClick={() => navigate(`/courses/${course.id}/view`)}
+            className="p-2 rounded-lg text-blue-500 hover:text-blue-600 hover:bg-blue-50 transition"
+          >
+            <Eye size={18} />
+          </button>
 
           {/* Edit */}
           <button

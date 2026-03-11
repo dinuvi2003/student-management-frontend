@@ -3,9 +3,11 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Students from "./pages/Students";
 import AddStudent from "./pages/AddStudent";
+import StudentDetails from "./pages/StudentDetails";
 import UpdateStudent from "./pages/UpdateStudent";
 import Courses from "./pages/Courses";
 import AddCourse from "./pages/AddCourse";
+import CourseDetails from "./pages/CourseDetails";
 import UpdateCourse from "./pages/UpdateCourse";
 import type { ReactNode } from "react";
 
@@ -54,6 +56,15 @@ function App() {
       />
 
       <Route 
+        path="/students/:id/view" 
+        element={
+          <ProtectedRoute>
+            <StudentDetails />
+          </ProtectedRoute>
+        } 
+      />
+
+      <Route 
         path="/students/:id" 
         element={
           <ProtectedRoute>
@@ -76,6 +87,15 @@ function App() {
         element={
           <ProtectedRoute>
             <AddCourse />
+          </ProtectedRoute>
+        } 
+      />
+
+      <Route 
+        path="/courses/:id/view" 
+        element={
+          <ProtectedRoute>
+            <CourseDetails />
           </ProtectedRoute>
         } 
       />
