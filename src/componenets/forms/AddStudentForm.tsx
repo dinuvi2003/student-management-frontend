@@ -1,13 +1,25 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormInput from "./FormInput";
 import FormDateInput from "./FormDateInput";
 import API from "../../services/api";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+type Course = {
+  id: number;
+  name: string;
+  description: string;
+};
+
 const AddStudentForm = () => {
   const navigate = useNavigate();
+
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [selectedCourse, setSelectedCourse] = useState<number | "">("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedCourses, setSelectedCourses] = useState<number[]>([]);
+  const [courseDates, setCourseDates] = useState<Record<number, string>>({});
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -99,13 +111,60 @@ const AddStudentForm = () => {
     }));
   };
 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await API.get<Course[]>("/api/courses");
+        setCourses(res.data);
+      } catch (error) {
+        console.error("Error fetching courses", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  const addCourse = () => {
+    if (!selectedCourse || !selectedDate) return;
+
+    if (selectedCourses.includes(Number(selectedCourse))) {
+      toast.error("Course already added");
+      return;
+    }
+
+    setSelectedCourses((prev) => [...prev, Number(selectedCourse)]);
+
+    setCourseDates((prev) => ({
+      ...prev,
+      [Number(selectedCourse)]: selectedDate,
+    }));
+
+    setSelectedCourse("");
+    setSelectedDate("");
+  };
+
+  const removeCourse = (courseId: number) => {
+    setSelectedCourses((prev) => prev.filter((id) => id !== courseId));
+
+    setCourseDates((prev) => {
+      const copy = { ...prev };
+      delete copy[courseId];
+      return copy;
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validate()) return;
 
     try {
-      await API.post("/api/students", formData);
+      const requestBody = {
+        student: formData,
+        courseIds: selectedCourses,
+        enrollmentDates: selectedCourses.map((id) => courseDates[id]),
+      };
+      await API.post("/api/students", requestBody);
       toast.success("Student created successfully");
       navigate("/students");
     } catch (error: unknown) {
@@ -214,6 +273,84 @@ const AddStudentForm = () => {
               </p>
             )}
           </div>
+        </div>
+
+        {/* Course Selection */}
+        <div className="space-y-4">
+
+          <h3 className="text-sm font-medium text-gray-700">Enroll Courses</h3>
+
+          <div className="flex gap-4">
+
+            {/* Course dropdown */}
+            <select
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg 
+                   focus:outline-none "
+              value={selectedCourse}
+              onChange={(e) => setSelectedCourse(Number(e.target.value))}
+            >
+              <option value="">Select Course</option>
+
+              {courses.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {course.name}
+                </option>
+              ))}
+
+            </select>
+
+            {/* Date picker */}
+            <input
+              type="date"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg 
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 
+                   focus:border-blue-500 transition"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
+
+            {/* Add button */}
+            <button
+              type="button"
+              onClick={addCourse}
+              className="bg-green-600 text-white px-4 py-2 rounded-lg"
+            >
+              Add
+            </button>
+
+          </div>
+
+          {/* Selected courses list */}
+          <div className="space-y-2">
+
+            {selectedCourses.map((id) => {
+              const course = courses.find((c) => c.id === id);
+
+              return (
+                <div
+                  key={id}
+                  className="flex justify-between items-center border rounded-lg px-4 py-2"
+                >
+                  <div>
+                    <p className="font-medium">{course?.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {courseDates[id]}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => removeCourse(id)}
+                    className="text-red-500"
+                  >
+                    Remove
+                  </button>
+                </div>
+              );
+            })}
+
+          </div>
+
         </div>
 
         {/* Submit */}

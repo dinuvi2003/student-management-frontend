@@ -1,6 +1,6 @@
 import DashboardLayout from "../componenets/layout/DashboardLayout";
 import StatCard from "../componenets/dashboard/StatCard";
-import { Users, UserPlus, CalendarDays } from "lucide-react";
+import { Users, UserPlus, CalendarDays, BookOpen, BarChart2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import API from "../services/api";
 
@@ -9,6 +9,8 @@ interface DashboardStats {
   enrollmentYears: number;
   enrolledThisYear: number;
   enrolledThisMonth: number;
+  totalCourses: number;
+  mostEnrolledCourse: string;
 }
 
 const Dashboard = () => {
@@ -17,7 +19,9 @@ const Dashboard = () => {
     totalStudents: 0,
     enrollmentYears: 0,
     enrolledThisYear: 0,
-    enrolledThisMonth: 0
+    enrolledThisMonth: 0,
+    totalCourses: 0,
+    mostEnrolledCourse: ""
   });
 
   useEffect(() => {
@@ -69,6 +73,18 @@ const Dashboard = () => {
             title="Enrolled This Month"
             value={stats.enrolledThisMonth.toString()}
             icon={<UserPlus className="text-purple-500" size={28} />}
+          />
+
+          <StatCard
+            title="Total Courses"
+            value={stats.totalCourses.toString()}
+            icon={<BookOpen className="text-indigo-500" size={28} />}
+          />
+
+          <StatCard
+            title="Most Enrolled Course"
+            value={<span className="text-sm">{stats.mostEnrolledCourse || "-"}</span>}
+            icon={<BarChart2 className="text-red-500" size={28} />}
           />
 
         </div>
